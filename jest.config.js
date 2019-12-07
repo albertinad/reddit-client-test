@@ -1,6 +1,6 @@
 module.exports = {
   setupFilesAfterEnv: [
-    'react-testing-library/cleanup-after-each',
+    '@testing-library/react/dont-cleanup-after-each',
   ],
   testPathIgnorePatterns: [
     'node_modules',

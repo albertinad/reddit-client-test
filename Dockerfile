@@ -5,12 +5,9 @@ FROM node:12.13.1-alpine as builder
 
 ARG WORKDIR
 
-ENV PACKAGE_VERSION ${PACKAGE_VERSION}
-
 WORKDIR ${WORKDIR}
 
 COPY package*.json ${WORKDIR}
-COPY .npmrc ${WORKDIR}
 
 COPY . ${WORKDIR}
 
@@ -37,7 +34,6 @@ ENV PORT 3000
 WORKDIR ${WORKDIR}
 
 COPY --from=builder ${WORKDIR}build/ .
-COPY --from=builder ${WORKDIR}config/ .
 COPY --from=builder ${WORKDIR}node_modules/ .
 COPY --from=builder ${WORKDIR}package.json .
 COPY --from=builder ${WORKDIR}package-lock.json .
