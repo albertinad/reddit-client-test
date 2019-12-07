@@ -8,6 +8,7 @@ import * as compression from 'compression';
 import { cpus } from 'os';
 import { Application } from 'express';
 import renderer from './middlewares/renderer';
+import tracing from './middlewares/tracing';
 import { PRODUCTION } from './utils/env';
 
 interface ServerConfig {
@@ -27,9 +28,10 @@ const Server = (config: ServerConfig) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
+  app.use(tracing);
 
   // add react renderer
-  app.use(renderer());
+  app.use(renderer);
 
   // mount application routes
   if (routes) {
