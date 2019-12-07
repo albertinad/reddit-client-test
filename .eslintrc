@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "eslint-config-airbnb-base"
+  ],
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "req",
+          "res"
+        ]
+      }
+    ],
+    "prefer-rest-params": "off",
+    "global-require": "off",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ]
+  }
+}

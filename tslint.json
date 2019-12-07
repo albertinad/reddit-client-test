@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-airbnb-base",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "no-any": true,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "interface-name": false,
+    "member-ordering": false,
+    "import-name": false,
+    "no-empty": [
+      true,
+      "allow-empty-functions"
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ]
+  },
+  "jsRules": {
+    "object-literal-sort-keys": false,
+    "no-empty": [
+      true,
+      "allow-empty-functions"
+    ]
+  }
+}

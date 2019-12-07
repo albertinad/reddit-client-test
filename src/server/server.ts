@@ -1,0 +1,76 @@
+/* tslint:disable no-console */
+
+import * as cluster from 'cluster';
+import * as express from 'express';
+import { Router } from 'express';
+import * as cookieParser from 'cookie-parser';
+import * as compression from 'compression';
+import { cpus } from 'os';
+import { Application } from 'express';
+import renderer from './middlewares/renderer';
+import { PRODUCTION } from './utils/env';
+
+interface ServerConfig {
+  routes: Router;
+  staticAssets: string[];
+}
+
+const Server = (config: ServerConfig) => {
+  const {
+    routes,
+    staticAssets,
+  } = config;
+
+  const app: Application = express();
+
+  app.use(compression());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
+
+  // add react renderer
+  app.use(renderer());
+
+  // mount application routes
+  if (routes) {
+    app.use(routes);
+  }
+
+  staticAssets.forEach(staticConfig => app.use(express.static(staticConfig)));
+
+  const start = () => {
+    const port = 3000;
+    const host = '0.0.0.0';
+
+    app.listen(port, host, () => console.log(`App listening on port ${port}`));
+  };
+
+  const startCluster = () => {
+    if (cluster.isMaster) {
+      const workers = cpus().length; // TODO: make it configurable
+      for (let i = 0; i < workers; i += 1) {
+        cluster.fork();
+      }
+
+      cluster.on('online', (worker) => {
+        console.info(`Worker ${worker.process.pid} is online`);
+      });
+
+      cluster.on('exit', (worker) => {
+        console.info(`Worker ${worker.process.pid} died`);
+        console.info('Starting a new worker');
+        cluster.fork();
+      });
+    } else {
+      start();
+    }
+  };
+
+  if (PRODUCTION) {
+    startCluster();
+  } else {
+    start();
+  }
+};
+
+export default Server;
