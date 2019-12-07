@@ -20,6 +20,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
+    "resolveJsonModule": true,
     "paths": {
       "@src/*": [
         "src/*"

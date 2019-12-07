@@ -9,6 +9,7 @@ import { cpus } from 'os';
 import { Application } from 'express';
 import renderer from './middlewares/renderer';
 import tracing from './middlewares/tracing';
+import health from './middlewares/health';
 import { PRODUCTION } from './utils/env';
 
 interface ServerConfig {
@@ -37,6 +38,9 @@ const Server = (config: ServerConfig) => {
   if (routes) {
     app.use(routes);
   }
+
+  // simple and basic /health endpoint
+  app.get('/health', health);
 
   staticAssets.forEach(staticConfig => app.use(express.static(staticConfig)));
 
